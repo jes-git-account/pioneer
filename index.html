@@ -1,325 +1,694 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Together - 線上漫畫平台</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <nav class="navbar" id="mainNavbar">
-    <div class="container navbar-inner">
-      <a href="#" class="logo nav-home-link"><img src="./pic/logo.webp" alt="Together"></a>
-      <div class="nav-right">
-        <input type="search" placeholder="搜尋作品..." class="search-bar" id="searchInput">
-        <button class="btn-login" id="loginBtn">登入</button>
-        <div class="user-area hidden" id="userArea">
-          <button class="btn-user" id="userBtn">
-            <img src="./pic/user.webp" alt="使用者頭像" id="userAvatar" class="user-avatar">
-            <span class="dropdown-arrow">▼</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Together - 線上漫畫平台</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <nav class="navbar" id="mainNavbar">
+      <div class="container navbar-inner">
+        <a href="#" class="logo nav-home-link"
+          ><img src="./pic/logo.webp" alt="Together"
+        /></a>
+        <div class="nav-right">
+          <input
+            type="search"
+            placeholder="搜尋作品..."
+            class="search-bar"
+            id="searchInput"
+          />
+          <button class="btn-login" id="loginBtn">登入</button>
+          <div class="user-area hidden" id="userArea">
+            <button class="btn-user" id="userBtn">
+              <img
+                src="./pic/user.webp"
+                alt="使用者頭像"
+                id="userAvatar"
+                class="user-avatar"
+              />
+              <span class="dropdown-arrow">▼</span>
+            </button>
+            <ul class="user-dropdown hidden" id="userDropdown">
+              <li><a href="#" id="memberCenterBtn">會員中心</a></li>
+              <li><a href="#" id="creatorCenterBtn">創作者中心</a></li>
+              <li><a href="#" id="shopBrowseBtn">作者商店</a></li>
+              <li><a href="#" id="taskCenterBtn">任務中心</a></li>
+              <li class="admin-only hidden">
+                <a href="./admin.html">管理控制台</a>
+              </li>
+              <li><a href="#" id="logoutBtn">登出</a></li>
+            </ul>
+          </div>
+          <button class="hamburger" id="hamburgerBtn">
+            <span></span><span></span><span></span>
           </button>
-          <ul class="user-dropdown hidden" id="userDropdown">
-            <li><a href="#" id="memberCenterBtn">會員中心</a></li>
-            <li><a href="#" id="creatorCenterBtn">創作者中心</a></li>
-            <li><a href="#" id="shopBrowseBtn">作者商店</a></li>
-            <li><a href="#" id="taskCenterBtn">任務中心</a></li>
-            <li class="admin-only hidden"><a href="./admin.html">管理控制台</a></li>
-            <li><a href="#" id="logoutBtn">登出</a></li>
-          </ul>
         </div>
-        <button class="hamburger" id="hamburgerBtn"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-header">
+        <a href="#" class="logo nav-home-link"
+          ><img src="./pic/logo.webp" alt="Together"
+        /></a>
+        <button class="close-btn" id="closeBtn">×</button>
+      </div>
+      <ul class="mobile-nav-links">
+        <li class="mobile-guest-only">
+          <a
+            href="#"
+            id="mobileLoginBtn"
+            style="color: #18293a; font-weight: bold"
+            >會員登入 / 註冊</a
+          >
+        </li>
+        <li class="mobile-auth-only hidden">
+          <a
+            href="#"
+            id="mobileMemberBtn"
+            style="color: #18293a; font-weight: bold"
+            >會員中心</a
+          >
+        </li>
+        <li class="mobile-auth-only hidden">
+          <a
+            href="#"
+            id="mobileCreatorBtn"
+            style="color: #18293a; font-weight: bold"
+            >創作者中心</a
+          >
+        </li>
+        <li class="menu-divider"></li>
+        <li><a href="#">每日更新</a></li>
+        <li><a href="#">每日推薦</a></li>
+        <li><a href="#" id="mobileShopBtn">作者商店</a></li>
+        <li class="menu-divider"></li>
+        <li><a href="#">漫畫</a></li>
+        <li><a href="#">小說</a></li>
+        <li><a href="#">劇本</a></li>
+        <li><a href="#">廣播劇</a></li>
+        <li class="mobile-auth-only hidden menu-divider"></li>
+        <li class="mobile-auth-only hidden">
+          <a
+            href="#"
+            id="mobileLogoutBtn"
+            style="color: #ef4444; font-weight: bold"
+            >登出</a
+          >
+        </li>
+      </ul>
+    </div>
+
+    <div id="loginModal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-btn modal-close" onclick="closeAllModals()">×</span>
+        <h2 id="modalTitle" class="modal-title">會員登入</h2>
+        <form id="loginForm" class="auth-form active">
+          <div class="form-group">
+            <label>電子郵件 / 帳號</label
+            ><input type="email" id="email" required />
+          </div>
+          <div class="form-group">
+            <label>密碼</label><input type="password" id="password" required />
+          </div>
+          <div class="form-options">
+            <label><input type="checkbox" id="remember" /> 記住我</label
+            ><a href="#" class="switch-link" data-target="forgot">忘記密碼？</a>
+          </div>
+          <button type="submit" class="btn-submit">登入</button>
+        </form>
+        <form id="registerForm" class="auth-form">
+          <div class="form-group">
+            <label>電子郵件</label><input type="email" id="regEmail" required />
+          </div>
+          <div class="form-group">
+            <label>使用者名稱</label
+            ><input type="text" id="regUsername" required />
+          </div>
+          <div class="form-group">
+            <label>密碼</label
+            ><input type="password" id="regPassword" required />
+          </div>
+          <div class="form-group">
+            <label>確認密碼</label
+            ><input type="password" id="regConfirmPassword" required />
+          </div>
+          <button type="submit" class="btn-submit">註冊</button>
+        </form>
+        <form id="forgotForm" class="auth-form">
+          <div class="form-group">
+            <label>請輸入註冊的信箱</label
+            ><input type="email" id="forgotEmail" required />
+          </div>
+          <button type="submit" class="btn-submit">送出驗證</button>
+        </form>
+        <div class="signup-link" id="switchToRegister">
+          還沒有帳號？
+          <a href="#" class="switch-link" data-target="register">立即註冊</a>
+        </div>
+        <div class="signup-link hidden" id="switchToLogin">
+          已有帳號？
+          <a href="#" class="switch-link" data-target="login">返回登入</a>
+        </div>
       </div>
     </div>
-  </nav>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-header">
-      <a href="#" class="logo nav-home-link"><img src="./pic/logo.webp" alt="Together"></a>
-      <button class="close-btn" id="closeBtn">×</button>
-    </div>
-    <ul class="mobile-nav-links">
-      <li class="mobile-guest-only"><a href="#" id="mobileLoginBtn" style="color: #18293A; font-weight: bold;">會員登入 / 註冊</a></li>
-      <li class="mobile-auth-only hidden"><a href="#" id="mobileMemberBtn" style="color: #18293A; font-weight: bold;">會員中心</a></li>
-      <li class="mobile-auth-only hidden"><a href="#" id="mobileCreatorBtn" style="color: #18293A; font-weight: bold;">創作者中心</a></li>
-      <li class="menu-divider"></li>
-      <li><a href="#">每日更新</a></li><li><a href="#">每日推薦</a></li><li><a href="#" id="mobileShopBtn">作者商店</a></li>
-      <li class="menu-divider"></li>
-      <li><a href="#">漫畫</a></li><li><a href="#">小說</a></li><li><a href="#">劇本</a></li><li><a href="#">廣播劇</a></li>
-      <li class="mobile-auth-only hidden menu-divider"></li>
-      <li class="mobile-auth-only hidden"><a href="#" id="mobileLogoutBtn" style="color: #ef4444; font-weight: bold;">登出</a></li>
-    </ul>
-  </div>
+    <div class="overlay" id="overlay"></div>
 
-  <div id="loginModal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-btn modal-close" onclick="closeAllModals()">×</span>
-      <h2 id="modalTitle" class="modal-title">會員登入</h2>
-      <form id="loginForm" class="auth-form active">
-        <div class="form-group"><label>電子郵件 / 帳號</label><input type="email" id="email" required></div>
-        <div class="form-group"><label>密碼</label><input type="password" id="password" required></div>
-        <div class="form-options"><label><input type="checkbox" id="remember"> 記住我</label><a href="#" class="switch-link" data-target="forgot">忘記密碼？</a></div>
-        <button type="submit" class="btn-submit">登入</button>
-      </form>
-      <form id="registerForm" class="auth-form">
-        <div class="form-group"><label>電子郵件</label><input type="email" id="regEmail" required></div>
-        <div class="form-group"><label>使用者名稱</label><input type="text" id="regUsername" required></div>
-        <div class="form-group"><label>密碼</label><input type="password" id="regPassword" required></div>
-        <div class="form-group"><label>確認密碼</label><input type="password" id="regConfirmPassword" required></div>
-        <button type="submit" class="btn-submit">註冊</button>
-      </form>
-      <form id="forgotForm" class="auth-form">
-        <div class="form-group"><label>請輸入註冊的信箱</label><input type="email" id="forgotEmail" required></div>
-        <button type="submit" class="btn-submit">送出驗證</button>
-      </form>
-      <div class="signup-link" id="switchToRegister">還沒有帳號？ <a href="#" class="switch-link" data-target="register">立即註冊</a></div>
-      <div class="signup-link hidden" id="switchToLogin">已有帳號？ <a href="#" class="switch-link" data-target="login">返回登入</a></div>
-    </div>
-  </div>
+    <main class="container page-section" id="homePage">
+      <div class="home-banner">
+        <div class="banner-content">
+          <h2>精選推薦作品</h2>
+          <p>1200 x 300 Banner 空間</p>
+        </div>
+      </div>
 
-  <div class="overlay" id="overlay"></div>
+      <section class="member-summary">
+        <div class="summary-card">
+          <p class="summary-label">目前會員</p>
+          <p class="summary-value" id="summaryUserName">訪客</p>
+        </div>
+        <div class="summary-card">
+          <p class="summary-label">免費點數</p>
+          <p class="summary-value" id="summaryPoints">0</p>
+        </div>
+        <div class="summary-card">
+          <p class="summary-label">專屬代幣</p>
+          <p class="summary-value" id="summaryTokens" style="color: #ef4444">
+            0
+          </p>
+        </div>
+      </section>
 
-  <main class="container page-section" id="homePage">
-    <div class="home-banner"><div class="banner-content"><h2>精選推薦作品</h2><p>1200 x 300 Banner 空間</p></div></div>
-    
-    <section class="member-summary">
-      <div class="summary-card"><p class="summary-label">目前會員</p><p class="summary-value" id="summaryUserName">訪客</p></div>
-      <div class="summary-card"><p class="summary-label">免費點數</p><p class="summary-value" id="summaryPoints">0</p></div>
-      <div class="summary-card"><p class="summary-label">專屬代幣</p><p class="summary-value" id="summaryTokens" style="color:#ef4444;">0</p></div>
+      <h1 class="section-title">熱門連載</h1>
+      <div class="filter-toolbar">
+        <button class="small-btn filter-btn" data-filter="全部">全部</button>
+        <button class="small-btn filter-btn" data-filter="奇幻">奇幻</button>
+        <button class="small-btn filter-btn" data-filter="動作">動作</button>
+        <button class="small-btn filter-btn" data-filter="戀愛">戀愛</button>
+      </div>
+      <div class="comic-grid" id="comicGrid"></div>
+      <p class="no-result hidden" id="noResult">找不到符合的作品</p>
+    </main>
+
+    <section class="container page-section hidden" id="comicDetailPage">
+      <div id="comicDetailContent"></div>
     </section>
 
-    <h1 class="section-title">熱門連載</h1>
-    <div class="filter-toolbar">
-      <button class="small-btn filter-btn" data-filter="全部">全部</button>
-      <button class="small-btn filter-btn" data-filter="奇幻">奇幻</button>
-      <button class="small-btn filter-btn" data-filter="動作">動作</button>
-      <button class="small-btn filter-btn" data-filter="戀愛">戀愛</button>
-    </div>
-    <div class="comic-grid" id="comicGrid"></div>
-    <p class="no-result hidden" id="noResult">找不到符合的作品</p>
-  </main>
+    <section class="container page-section hidden" id="productDetailPage">
+      <div id="productDetailContent"></div>
+    </section>
 
-  <section class="container page-section hidden" id="comicDetailPage">
-    <div id="comicDetailContent"></div>
-  </section>
-
-  <section class="container page-section hidden" id="productDetailPage">
-    <div id="productDetailContent"></div>
-  </section>
-
-  <section class="hidden" id="chapterReadPage">
-    <div class="chapter-read-controls">
-      <div class="container reader-header-inner" style="position: relative;">
-        <div class="controls-left">
-          <button class="nav-home-link" id="readerHomeBtn" style="background:none; border:none; cursor:pointer; padding:0; display:flex; align-items:center;">
-            <img src="./pic/logo.webp" alt="Together" style="height: 40px; display: block;">
-          </button>
-          <button class="nav-text-btn mobile-hide" id="backToDetailBtn" style="font-weight: bold;">⬅ 返回</button>
-        </div>
-        <div class="reader-top-title" id="readerTopTitle">第 X 話</div>
-        <div class="controls-right">
-          <button id="chapterMenuBtn" class="small-btn">目錄 ☰</button>
+    <section class="hidden" id="chapterReadPage">
+      <div class="chapter-read-controls">
+        <div class="container reader-header-inner" style="position: relative">
+          <div class="controls-left">
+            <button
+              class="nav-home-link"
+              id="readerHomeBtn"
+              style="
+                background: none;
+                border: none;
+                cursor: pointer;
+                padding: 0;
+                display: flex;
+                align-items: center;
+              "
+            >
+              <img
+                src="./pic/logo.webp"
+                alt="Together"
+                style="height: 40px; display: block"
+              />
+            </button>
+            <button
+              class="nav-text-btn mobile-hide"
+              id="backToDetailBtn"
+              style="font-weight: bold"
+            >
+              ⬅ 返回
+            </button>
+          </div>
+          <div class="reader-top-title" id="readerTopTitle">第 X 話</div>
+          <div class="controls-right">
+            <button id="chapterMenuBtn" class="small-btn">目錄 ☰</button>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="container page-section" id="chapterReadContent" style="text-align: center; padding-top: 100px;"></div>
-  </section>
+      <div
+        class="container page-section"
+        id="chapterReadContent"
+        style="text-align: center; padding-top: 100px"
+      ></div>
+    </section>
 
-  <div id="chapterDrawer" class="chapter-drawer">
-    <div class="drawer-header">
-      <h3 style="margin:0; color:#18293A;">作品目錄</h3>
-      <button class="close-btn" id="closeDrawerBtn" style="font-size:2rem; cursor:pointer; background:none; border:none;">×</button>
+    <div id="chapterDrawer" class="chapter-drawer">
+      <div class="drawer-header">
+        <h3 style="margin: 0; color: #18293a">作品目錄</h3>
+        <button
+          class="close-btn"
+          id="closeDrawerBtn"
+          style="
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+          "
+        >
+          ×
+        </button>
+      </div>
+      <div id="drawerList" class="drawer-list"></div>
     </div>
-    <div id="drawerList" class="drawer-list"></div>
-  </div>
 
-  <section class="container page-section hidden" id="memberPage">
-    <h1 class="section-title">會員中心</h1>
-    <div class="dashboard-grid">
-      
-      <div class="dashboard-card" style="grid-column: 1 / -1;">
-        <h3>🪙 代幣兌換中心</h3>
-        <div style="display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
-          <div style="flex: 1; background: #f8f9fa; padding: 15px; border-radius: 8px;">
-            <p>持有免費點數：<strong id="exchangePointsDisplay" style="color:#18293A; font-size:1.2rem;">0</strong> 點</p>
-            <p>持有專屬代幣：<strong id="exchangeTokensDisplay" style="color:#ef4444; font-size:1.2rem;">0</strong> 枚</p>
-            <p style="font-size: 0.85rem; color: #666; margin-top: 5px;">* 兌換匯率：100 點數 = 1 代幣</p>
-          </div>
-          <form id="exchangeForm" style="flex: 1; display: flex; gap: 10px; align-items: flex-end;">
-            <div class="form-group" style="margin-bottom: 0; flex: 1;">
-              <label>欲兌換的「代幣」數量</label>
-              <input type="number" id="exchangeAmount" min="1" placeholder="輸入代幣數量" required>
+    <section class="container page-section hidden" id="memberPage">
+      <h1 class="section-title">會員中心</h1>
+      <div class="dashboard-grid">
+        <div class="dashboard-card" style="grid-column: 1 / -1">
+          <h3>🪙 代幣兌換中心</h3>
+          <div
+            style="
+              display: flex;
+              gap: 20px;
+              align-items: center;
+              flex-wrap: wrap;
+            "
+          >
+            <div
+              style="
+                flex: 1;
+                background: #f8f9fa;
+                padding: 15px;
+                border-radius: 8px;
+              "
+            >
+              <p>
+                持有免費點數：<strong
+                  id="exchangePointsDisplay"
+                  style="color: #18293a; font-size: 1.2rem"
+                  >0</strong
+                >
+                點
+              </p>
+              <p>
+                持有專屬代幣：<strong
+                  id="exchangeTokensDisplay"
+                  style="color: #ef4444; font-size: 1.2rem"
+                  >0</strong
+                >
+                枚
+              </p>
+              <p style="font-size: 0.85rem; color: #666; margin-top: 5px">
+                * 兌換匯率：100 點數 = 1 代幣
+              </p>
             </div>
-            <button type="submit" class="btn-submit">確認兌換</button>
+            <form
+              id="exchangeForm"
+              style="flex: 1; display: flex; gap: 10px; align-items: flex-end"
+            >
+              <div class="form-group" style="margin-bottom: 0; flex: 1">
+                <label>欲兌換的「代幣」數量</label>
+                <input
+                  type="number"
+                  id="exchangeAmount"
+                  min="1"
+                  placeholder="輸入代幣數量"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn-submit">確認兌換</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="dashboard-card">
+          <h3>個人資料設定</h3>
+          <form id="profileForm">
+            <div class="form-group">
+              <label>帳號 (不可更改)</label
+              ><input
+                type="email"
+                id="profileEmail"
+                disabled
+                style="background: #f0f0f0"
+              />
+            </div>
+            <div class="form-group">
+              <label>使用者名稱</label
+              ><input type="text" id="profileUsername" required />
+            </div>
+            <div class="form-group">
+              <label>更改密碼</label
+              ><input
+                type="password"
+                id="profilePassword"
+                placeholder="不更改請留空"
+              />
+            </div>
+            <button type="submit" class="btn-submit">儲存修改</button>
           </form>
         </div>
-      </div>
-
-      <div class="dashboard-card">
-        <h3>個人資料設定</h3>
-        <form id="profileForm">
-          <div class="form-group"><label>帳號 (不可更改)</label><input type="email" id="profileEmail" disabled style="background:#f0f0f0;"></div>
-          <div class="form-group"><label>使用者名稱</label><input type="text" id="profileUsername" required></div>
-          <div class="form-group"><label>更改密碼</label><input type="password" id="profilePassword" placeholder="不更改請留空"></div>
-          <button type="submit" class="btn-submit">儲存修改</button>
-        </form>
-      </div>
-      <div class="dashboard-card">
-        <h3>帳號狀態</h3>
-        <div style="margin-top: 15px; line-height: 2.2; font-size: 1.05rem;">
-          <p><strong>會員身分：</strong> <span id="profileRole"></span></p>
-          <p><strong>免費點數：</strong> <span id="profilePoints"></span> 點</p>
-          <p><strong>專屬代幣：</strong> <span id="profileTokens" style="color: #ef4444; font-weight: bold;"></span> 代幣</p>
-          <p><strong>會員等級：</strong> <span id="profileLevel"></span></p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="container page-section hidden" id="marketPage">
-    <h1 class="section-title">作者商店</h1>
-    <p class="result-text">在這裡支持創作者的精美周邊，使用代幣即可直接購買</p>
-    <div class="comic-grid" id="productGrid"></div>
-    <p class="no-result hidden" id="noProductResult">目前沒有商品</p>
-  </section>
-
-  <section class="container page-section hidden" id="taskPage">
-    <h1 class="section-title">任務中心</h1>
-    <p class="result-text">完成每日任務，賺取點數來兌換代幣！</p>
-    <div class="task-grid" id="taskGrid"></div>
-  </section>
-
-  <section class="container page-section hidden" id="creatorCenterPage">
-    <h1 class="section-title">創作者中心</h1>
-    <div class="creator-tabs">
-      <button class="tab-btn active" data-target="tab-works">作品管理</button>
-      <button class="tab-btn" data-target="tab-products">商品上架</button>
-    </div>
-
-    <div id="tab-works" class="tab-content active">
-      <div class="dashboard-card" style="margin-bottom: 24px;">
-        <div class="card-header-toggle" onclick="toggleCardContent(this)">
-          <h3>已發布作品列表</h3><span class="toggle-icon">▼</span>
-        </div>
-        <div class="card-content">
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead><tr><th>作品名稱</th><th>分類</th><th>狀態</th><th>章節數</th><th style="width: 200px;">操作</th></tr></thead>
-              <tbody id="creatorComicTableBody"></tbody>
-            </table>
+        <div class="dashboard-card">
+          <h3>帳號狀態</h3>
+          <div style="margin-top: 15px; line-height: 2.2; font-size: 1.05rem">
+            <p><strong>會員身分：</strong> <span id="profileRole"></span></p>
+            <p>
+              <strong>免費點數：</strong> <span id="profilePoints"></span> 點
+            </p>
+            <p>
+              <strong>專屬代幣：</strong>
+              <span
+                id="profileTokens"
+                style="color: #ef4444; font-weight: bold"
+              ></span>
+              代幣
+            </p>
+            <p><strong>會員等級：</strong> <span id="profileLevel"></span></p>
           </div>
         </div>
       </div>
-      <div class="dashboard-card" style="margin-bottom: 24px;">
-        <div class="card-header-toggle" onclick="toggleCardContent(this)">
-          <h3>新增作品</h3><span class="toggle-icon collapsed">▼</span>
-        </div>
-        <div class="card-content hidden-content">
-          <form id="createComicForm">
-            <div class="form-group"><label>作品名稱</label><input type="text" id="creatorComicTitle" required></div>
-            <div class="form-group"><label>作品分類</label><select id="creatorComicCategory"><option value="奇幻">奇幻</option><option value="動作">動作</option><option value="戀愛">戀愛</option><option value="懸疑">懸疑</option><option value="日常">日常</option></select></div>
-            <div class="form-group"><label>主畫面封面 (9:16 直圖)</label><input type="text" id="creatorComicCover9x16" placeholder="請輸入圖片網址 (支援 .jpg, .png, .webp)" required></div>
-            <div class="form-group"><label>詳情頁封面 (1:1 方圖)</label><input type="text" id="creatorComicCover1x1" placeholder="請輸入圖片網址 (支援 .jpg, .png, .webp)" required></div>
-            <div class="form-group"><label>作品簡介</label><textarea id="creatorComicDesc"></textarea></div>
-            <button type="submit" class="btn-submit">建立作品</button>
-          </form>
-        </div>
-      </div>
-      <div class="dashboard-card">
-        <div class="card-header-toggle" onclick="toggleCardContent(this)">
-          <h3>上傳新章節</h3><span class="toggle-icon collapsed">▼</span>
-        </div>
-        <div class="card-content hidden-content">
-          <form id="createChapterForm">
-            <div class="form-group"><label>選擇所屬作品</label><select id="chapterComicSelect"></select></div>
-            <div class="form-group"><label>章節名稱 (自動計算)</label><input type="text" id="chapterTitle" required></div>
-            <div class="form-group"><label>內容圖片路徑 (多張圖請用逗號分隔)</label><textarea id="chapterImagePath" placeholder="例如: ./pic/p1.jpg, ./pic/p2.jpg"></textarea></div>
-            <div class="form-group inline-check"><label><input type="checkbox" id="chapterIsFree" checked> 設定為免費章節</label></div>
-            <div class="form-group"><label>解鎖代幣</label><input type="number" id="chapterPointsCost" value="0" disabled></div>
-            <button type="submit" class="btn-submit">發布章節</button>
-          </form>
-        </div>
-      </div>
-    </div>
+    </section>
 
-    <div id="tab-products" class="tab-content">
-      <div class="dashboard-card">
-        <h3>上架新商品</h3>
-        <form id="sellForm">
-          <div class="form-group"><label>商品名稱</label><input type="text" id="productName" required></div>
-          <div class="form-group"><label>商品價格 (需要多少代幣)</label><input type="number" id="productPrice" required></div>
-          <div class="form-group"><label>商品描述</label><input type="text" id="productDesc" required></div>
-          <div class="form-group"><label>商品圖片路徑</label><input type="text" id="productImage" placeholder="支援 .jpg, .png, .webp" required></div>
-          <button type="submit" class="btn-submit">確認上架</button>
+    <section class="container page-section hidden" id="marketPage">
+      <h1 class="section-title">作者商店</h1>
+      <p class="result-text">
+        在這裡支持創作者的精美周邊，使用代幣即可直接購買
+      </p>
+      <div class="comic-grid" id="productGrid"></div>
+      <p class="no-result hidden" id="noProductResult">目前沒有商品</p>
+    </section>
+
+    <section class="container page-section hidden" id="taskPage">
+      <h1 class="section-title">任務中心</h1>
+      <p class="result-text">完成每日任務，賺取點數來兌換代幣！</p>
+      <div class="task-grid" id="taskGrid"></div>
+    </section>
+
+    <section class="container page-section hidden" id="creatorCenterPage">
+      <h1 class="section-title">創作者中心</h1>
+      <div class="creator-tabs">
+        <button class="tab-btn active" data-target="tab-works">作品管理</button>
+        <button class="tab-btn" data-target="tab-products">商品上架</button>
+      </div>
+
+      <div id="tab-works" class="tab-content active">
+        <div class="dashboard-card" style="margin-bottom: 24px">
+          <div class="card-header-toggle" onclick="toggleCardContent(this)">
+            <h3>已發布作品列表</h3>
+            <span class="toggle-icon">▼</span>
+          </div>
+          <div class="card-content">
+            <div class="table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>作品名稱</th>
+                    <th>分類</th>
+                    <th>狀態</th>
+                    <th>章節數</th>
+                    <th style="width: 200px">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="creatorComicTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="dashboard-card" style="margin-bottom: 24px">
+          <div class="card-header-toggle" onclick="toggleCardContent(this)">
+            <h3>新增作品</h3>
+            <span class="toggle-icon collapsed">▼</span>
+          </div>
+          <div class="card-content hidden-content">
+            <form id="createComicForm">
+              <div class="form-group">
+                <label>作品名稱</label
+                ><input type="text" id="creatorComicTitle" required />
+              </div>
+              <div class="form-group">
+                <label>作品分類</label
+                ><select id="creatorComicCategory">
+                  <option value="奇幻">奇幻</option>
+                  <option value="動作">動作</option>
+                  <option value="戀愛">戀愛</option>
+                  <option value="懸疑">懸疑</option>
+                  <option value="日常">日常</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>主畫面封面 (9:16 直圖)</label>
+                <input
+                  type="file"
+                  id="creatorComicCover9x16"
+                  accept="image/jpeg,image/png,image/webp"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label>詳情頁封面 (1:1 方圖)</label>
+                <input
+                  type="file"
+                  id="creatorComicCover1x1"
+                  accept="image/jpeg,image/png,image/webp"
+                  required
+                />
+              </div>
+              <div class="form-group">
+                <label>作品簡介</label
+                ><textarea id="creatorComicDesc"></textarea>
+              </div>
+              <button type="submit" class="btn-submit">建立作品</button>
+            </form>
+          </div>
+        </div>
+        <div class="dashboard-card">
+          <div class="card-header-toggle" onclick="toggleCardContent(this)">
+            <h3>上傳新章節</h3>
+            <span class="toggle-icon collapsed">▼</span>
+          </div>
+          <div class="card-content hidden-content">
+            <form id="createChapterForm">
+              <div class="form-group">
+                <label>選擇所屬作品</label
+                ><select id="chapterComicSelect"></select>
+              </div>
+              <div class="form-group">
+                <label>章節名稱 (自動計算)</label
+                ><input type="text" id="chapterTitle" required />
+              </div>
+              <div class="form-group">
+                <label>內容圖片路徑 (多張圖請用逗號分隔)</label
+                ><textarea
+                  id="chapterImagePath"
+                  placeholder="例如: ./pic/p1.jpg, ./pic/p2.jpg"
+                ></textarea>
+              </div>
+              <div class="form-group inline-check">
+                <label
+                  ><input type="checkbox" id="chapterIsFree" checked />
+                  設定為免費章節</label
+                >
+              </div>
+              <div class="form-group">
+                <label>解鎖代幣</label
+                ><input
+                  type="number"
+                  id="chapterPointsCost"
+                  value="0"
+                  disabled
+                />
+              </div>
+              <button type="submit" class="btn-submit">發布章節</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="tab-products" class="tab-content">
+        <div class="dashboard-card">
+          <h3>上架新商品</h3>
+          <form id="sellForm">
+            <div class="form-group">
+              <label>商品名稱</label
+              ><input type="text" id="productName" required />
+            </div>
+            <div class="form-group">
+              <label>商品價格 (需要多少代幣)</label
+              ><input type="number" id="productPrice" required />
+            </div>
+            <div class="form-group">
+              <label>商品描述</label
+              ><input type="text" id="productDesc" required />
+            </div>
+            <div class="form-group">
+              <label>商品圖片路徑</label
+              ><input
+                type="text"
+                id="productImage"
+                placeholder="支援 .jpg, .png, .webp"
+                required
+              />
+            </div>
+            <button type="submit" class="btn-submit">確認上架</button>
+          </form>
+        </div>
+        <div class="dashboard-card" style="margin-top: 24px">
+          <h3>我上架的商品</h3>
+          <div class="comic-grid" id="myProductGrid"></div>
+          <p class="no-result hidden" id="noMyProductResult">
+            目前沒有上架商品
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div id="creatorEditComicModal" class="modal hidden">
+      <div class="edit-modal-container">
+        <div class="edit-modal-header">
+          <h2 style="margin: 0; color: #18293a">編輯作品資料</h2>
+          <span
+            class="close-btn"
+            onclick="closeAllModals()"
+            style="font-size: 2rem"
+            >&times;</span
+          >
+        </div>
+        <form id="creatorEditComicForm" class="edit-form-wide">
+          <input type="hidden" id="creatorEditComicId" />
+          <div class="edit-form-grid">
+            <div class="form-group">
+              <label>作品名稱</label
+              ><input type="text" id="creatorEditComicTitle" required />
+            </div>
+            <div class="form-group">
+              <label>分類</label
+              ><select id="creatorEditComicCategory">
+                <option value="奇幻">奇幻</option>
+                <option value="動作">動作</option>
+                <option value="戀愛">戀愛</option>
+                <option value="懸疑">懸疑</option>
+                <option value="日常">日常</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>狀態</label
+              ><select id="creatorEditComicStatus">
+                <option value="連載中">連載中</option>
+                <option value="完結">完結</option>
+                <option value="暫停連載">暫停連載</option>
+                <option value="停更">停更</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>主畫面封面 (9:16 直圖)</label
+              ><input type="text" id="creatorEditComicCover9x16" required />
+            </div>
+            <div class="form-group">
+              <label>詳情頁封面 (1:1 方圖)</label
+              ><input type="text" id="creatorEditComicCover1x1" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>作品簡介</label
+            ><textarea
+              id="creatorEditComicDesc"
+              style="min-height: 100px"
+            ></textarea>
+          </div>
+          <div class="edit-form-actions">
+            <button
+              type="button"
+              class="btn-action"
+              onclick="closeAllModals()"
+              style="margin-right: 15px"
+            >
+              取消編輯
+            </button>
+            <button type="submit" class="btn-submit" style="width: 200px">
+              儲存變更
+            </button>
+          </div>
         </form>
       </div>
-      <div class="dashboard-card" style="margin-top: 24px;">
-        <h3>我上架的商品</h3>
-        <div class="comic-grid" id="myProductGrid"></div>
-        <p class="no-result hidden" id="noMyProductResult">目前沒有上架商品</p>
-      </div>
     </div>
-  </section>
 
-  <div id="creatorEditComicModal" class="modal hidden">
-    <div class="edit-modal-container">
-      <div class="edit-modal-header">
-        <h2 style="margin:0; color:#18293A;">編輯作品資料</h2>
-        <span class="close-btn" onclick="closeAllModals()" style="font-size: 2rem;">&times;</span>
-      </div>
-      <form id="creatorEditComicForm" class="edit-form-wide">
-        <input type="hidden" id="creatorEditComicId">
-        <div class="edit-form-grid">
-          <div class="form-group"><label>作品名稱</label><input type="text" id="creatorEditComicTitle" required></div>
-          <div class="form-group"><label>分類</label><select id="creatorEditComicCategory"><option value="奇幻">奇幻</option><option value="動作">動作</option><option value="戀愛">戀愛</option><option value="懸疑">懸疑</option><option value="日常">日常</option></select></div>
-          <div class="form-group"><label>狀態</label><select id="creatorEditComicStatus"><option value="連載中">連載中</option><option value="完結">完結</option><option value="暫停連載">暫停連載</option><option value="停更">停更</option></select></div>
-          <div class="form-group"><label>主畫面封面 (9:16 直圖)</label><input type="text" id="creatorEditComicCover9x16" required></div>
-          <div class="form-group"><label>詳情頁封面 (1:1 方圖)</label><input type="text" id="creatorEditComicCover1x1" required></div>
+    <div id="chapterManageModal" class="modal hidden">
+      <div class="edit-modal-container">
+        <div class="edit-modal-header">
+          <h2 style="margin: 0; color: #18293a">
+            管理章節 - <span id="manageComicTitle"></span>
+          </h2>
+          <span
+            class="close-btn"
+            onclick="closeAllModals()"
+            style="font-size: 2rem"
+            >&times;</span
+          >
         </div>
-        <div class="form-group"><label>作品簡介</label><textarea id="creatorEditComicDesc" style="min-height: 100px;"></textarea></div>
-        <div class="edit-form-actions">
-          <button type="button" class="btn-action" onclick="closeAllModals()" style="margin-right: 15px;">取消編輯</button>
-          <button type="submit" class="btn-submit" style="width: 200px;">儲存變更</button>
+        <div class="table-wrap" style="max-height: 400px; overflow-y: auto">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>章節名稱</th>
+                <th>狀態</th>
+                <th>解鎖費用</th>
+                <th style="width: 100px">操作</th>
+              </tr>
+            </thead>
+            <tbody id="manageChapterTableBody"></tbody>
+          </table>
         </div>
-      </form>
-    </div>
-  </div>
-
-  <div id="chapterManageModal" class="modal hidden">
-    <div class="edit-modal-container">
-      <div class="edit-modal-header">
-        <h2 style="margin:0; color:#18293A;">管理章節 - <span id="manageComicTitle"></span></h2>
-        <span class="close-btn" onclick="closeAllModals()" style="font-size: 2rem;">&times;</span>
-      </div>
-      <div class="table-wrap" style="max-height: 400px; overflow-y: auto;">
-        <table class="data-table">
-          <thead><tr><th>章節名稱</th><th>狀態</th><th>解鎖費用</th><th style="width: 100px;">操作</th></tr></thead>
-          <tbody id="manageChapterTableBody"></tbody>
-        </table>
       </div>
     </div>
-  </div>
 
-  <div id="chapterEditModal" class="modal hidden">
-    <div class="modal-content" style="max-width: 500px;">
-      <span class="close-btn modal-close" onclick="closeChapterEditModal()">×</span>
-      <h2 class="modal-title">編輯章節</h2>
-      <form id="chapterEditForm" class="auth-form active">
-        <input type="hidden" id="editChapterId">
-        <input type="hidden" id="editChapterComicId">
-        <div class="form-group"><label>章節名稱</label><input type="text" id="editChapterTitle" required></div>
-        <div class="form-group"><label>內容圖片路徑 (逗號分隔)</label><textarea id="editChapterImages" required></textarea></div>
-        <div class="form-group inline-check"><label><input type="checkbox" id="editChapterIsFree"> 設定為免費章節</label></div>
-        <div class="form-group"><label>解鎖代幣</label><input type="number" id="editChapterPointsCost"></div>
-        <button type="submit" class="btn-submit" style="width: 100%; margin-top: 10px;">儲存修改</button>
-      </form>
+    <div id="chapterEditModal" class="modal hidden">
+      <div class="modal-content" style="max-width: 500px">
+        <span class="close-btn modal-close" onclick="closeChapterEditModal()"
+          >×</span
+        >
+        <h2 class="modal-title">編輯章節</h2>
+        <form id="chapterEditForm" class="auth-form active">
+          <input type="hidden" id="editChapterId" />
+          <input type="hidden" id="editChapterComicId" />
+          <div class="form-group">
+            <label>章節名稱</label
+            ><input type="text" id="editChapterTitle" required />
+          </div>
+          <div class="form-group">
+            <label>內容圖片路徑 (逗號分隔)</label
+            ><textarea id="editChapterImages" required></textarea>
+          </div>
+          <div class="form-group inline-check">
+            <label
+              ><input type="checkbox" id="editChapterIsFree" />
+              設定為免費章節</label
+            >
+          </div>
+          <div class="form-group">
+            <label>解鎖代幣</label
+            ><input type="number" id="editChapterPointsCost" />
+          </div>
+          <button
+            type="submit"
+            class="btn-submit"
+            style="width: 100%; margin-top: 10px"
+          >
+            儲存修改
+          </button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <footer class="main-footer" id="mainFooter">
-    <div class="footer-links"><a href="#">常見問題</a><a href="#">聯絡我們</a><a href="#">關於我們</a></div>
-    <p class="footer-copy">© 2026 Together. All rights reserved.</p>
-  </footer>
+    <footer class="main-footer" id="mainFooter">
+      <div class="footer-links">
+        <a href="#">常見問題</a><a href="#">聯絡我們</a><a href="#">關於我們</a>
+      </div>
+      <p class="footer-copy">© 2026 Together. All rights reserved.</p>
+    </footer>
 
-  <script src="./function.js"></script>
-</body>
+    <script src="./function.js"></script>
+  </body>
 </html>
