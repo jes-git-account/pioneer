@@ -392,19 +392,13 @@ textarea {
   aspect-ratio: 1 / 1;
 }
 .comic-stats-box {
-  margin-top: 1rem;
-  text-align: left;
-  background: none;
-  padding: 0;
-  border-radius: 0;
-  box-shadow: none;
-  border-top: none;
-}
-
-.comic-stats-box h3 {
-  color: #18293a;
-  font-size: 1.1rem;
-  margin-bottom: 12px;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  margin-top: 1.5rem;
+  border-top: 4px solid #ffffff;
 }
 .chapter-list-wrap {
   background: #fff;
